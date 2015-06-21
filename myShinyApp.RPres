@@ -1,0 +1,52 @@
+myShinyApp
+===
+author: Rekha Vaidyanathan
+date: `r date()`
+
+<small>
+For Coursera : Developing with Data Products Project
+</small>
+
+About myShinyApp
+===
+The myShinyApp plots different types of graph based on the user's choice:
+
+- Takes an <b>input </b> from the user for the <b><i>type of Graph</b></i> 
+- <b>Plots</b> a Graph of Age Vs Circumference of 5 types of Trees based on the Orange       Dataset
+- Calculates a <b><i>Statistical Summary </b></i>of the Orange Dataset on user's selection
+</b>
+
+Selection of Graph Type
+========================================================
+The Graph type can be selected with the help of Dropdown boxes.Based on the selection, a Corresponding Graph is created.As an example, <b> <i>Line Graph</b></i> is selected here.
+```{r, echo=FALSE}
+library(ggplot2)
+library(shiny)
+data("Orange")
+
+selectInput(inputId="UserInput",label="Choose your Graph Style", choices=c('Plot'='point', 
+'Line'='line','Bar'='bar'),selected='line')
+ qplot(age, circumference, data=Orange,color=Tree,geom='line'
+,stat='identity',environment=environment(), main="Graph for Orange Dataset")
+
+```
+
+Summary of Data
+========================================================
+A <b>checkbox</b> in the sidepanel calculates the <b><i>statistics summary</b></i>.
+The output of which is in a
+<i>conditional panel </i> which will show or hide this summary upon user's selection.
+```{r, echo=FALSE}
+checkboxInput(inputId="summary", label="Calculate Summary of data", value=TRUE)
+summary(Orange)
+```
+
+Project Files and R Markdown
+=================
+- The R Markdown (interactive) document can be viewed from this link:
+  https://rekhavai.shinyapps.io/index </url>
+- The Project can be run from shinyapps.io :
+ https://rekhavai.shinyapps.io/myShinyApp 
+- The GitHub Link is:
+https://github.com/RekhaVai/ShinyApp.git
+
