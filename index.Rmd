@@ -1,0 +1,44 @@
+title: "ShinyApp"
+author: "Rekha Vaidyanathan"
+output: html_document
+runtime: shiny
+---
+
+This Shiny App demonstrates graphs plotted for the Orange dataset in R.
+It executes the following steps<br><b>
+(1) User's choice of Plot <br>
+(2) Plots the Age and Circumference of 5 Tree types<br>
+(3) Shows or Hides <i>Statistics Summary</i> calculated for Orange Dataset<br></b>
+
+A dropdown box enables the user to select the graph type. Three types are provided.
+The selectInput enables the dropdown choices and renderPlot plots the pont,line or bar graphs with the help of qplot.<br>
+
+1. Plot <br>
+2. Line Graph <br>
+3. Bar Graph <br>
+
+Based on this reactive input, selected by the user, corresponding plot/line/bar graphs are produced for the Orange Dataset. Circumference ~ Age is plotted for 5 types of trees.
+
+
+```{r}
+library(shiny)
+library(ggplot2)
+data("Orange")
+inputPanel(
+selectInput("UserInput",label="Choose your Graph Style", choices=c('Plot'='point', 'Line'='line','Bar'='bar'),selected='plot')
+)
+renderPlot ( {qplot(age, circumference, data=Orange,color=Tree,geom=input$UserInput ,stat='identity', environment=environment(),main="Graph for Orange Dataset") })
+
+```
+
+A checkbox in the sidepanel calculates the statistics summary.<br>
+The output of which is in a
+conditional panel which will show or hide this summary upon user's selection.
+
+```{r}
+inputPanel(
+  checkboxInput(inputId="summary", label="Calculate Summary of data", value=FALSE)
+  )
+conditionalPanel("input.summary == true",renderTable(summary(Orange)))
+```
+
